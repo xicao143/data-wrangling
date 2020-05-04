@@ -251,23 +251,11 @@ scraped2 %>%
 
 
 
-grid.arrange(
-  scraped %>% 
-    melt() %>%
-    filter(variable == "public tuition fees"|variable == "Private Tuition Fees") %>%
-    ggplot() + 
-    geom_bar(aes(x = value, y = State, fill = variable), stat = "identity", position = "dodge") +
-    ggtitle("2020 Tuition Fees By University Type") + 
-    theme(legend.position="bottom"),
-  
-  scraped %>% 
-    melt() %>%
-    filter(variable == "On-Campus Living Costs"|variable == "Off-Campus Living Costs") %>%
-    ggplot() + 
-    geom_bar(aes(x = value, y = State, fill = variable), stat = "identity", position = "dodge") +
-    ggtitle("2020 Living Costs By States") + 
-    theme(legend.position="bottom"),
-  ncol = 2
-)
-
+scraped %>% 
+  melt() %>%
+  filter(variable == "Public Tuition Fees"|variable == "Private Tuition Fees") %>%
+  ggplot() + 
+  geom_bar(aes(x = value, y = State, fill = variable), stat = "identity", position = "dodge") +
+  ggtitle("2020 Tuition Fees By University Type") + 
+  theme(legend.position="bottom")
 

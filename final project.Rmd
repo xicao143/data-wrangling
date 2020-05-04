@@ -2,7 +2,8 @@
 title: "Final Project"
 author: "Xi Cao"
 date: "4/29/2020"
-output: html_document
+output:
+  html_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -26,19 +27,12 @@ library(gridExtra)
 ```
 
 Project description
-In this project, we will deal with some data related to America tuition costs in each state and then find out some correlation between the tuition costs and 
-
-Data introduction
-In this project, we have used 4 data scource from Github, there is some simple description about the data we will use:
-1.tuition_cost
-
-
-
+In this project, we will deal with some data related to America tuition costs in each state and then find out some correlation between the tuition costs and other relative variables.
 
 
 1. Data import and data scraped
 1.(a) Read data from the first data source. As data in this source has already been cleaned, so we do not have to clean them any more.
-```{r read data from first source, echo=FALSE}
+```{r read data from first source, echo=FALSE, message=FALSE}
 tuition_cost <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-03-10/tuition_cost.csv')
 
 salary_potential <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-03-10/salary_potential.csv')
@@ -49,7 +43,7 @@ diversity_school <- readr::read_csv('https://raw.githubusercontent.com/rfordatas
 ```
 
 1.(b) Read data from the second source. Th data read from this source is the tuition fees and living costs by state. This data source need to do some cleaning and change some colnames. We deleted some rows and colnames and renamed the colname names. Export it as a csv file.
-```{r read data from second source, echo=FALSE}
+```{r read data from second source, echo=FALSE, message=FALSE}
 scraped <- "https://www.collegetuitioncompare.com/state/" %>%
     read_html() %>%
     html_table(fill = T) %>%  
@@ -62,7 +56,7 @@ colnames(scraped) <- c("State", "Number of Schools", "In-State Public Tuition Fe
 ```
 
 1.(c) Read more specific tuition costs from the website of each state by a loop and store these table into a list.
-```{r read data from each state, echo=FALSE}
+```{r read data from each state, echo=FALSE, message=FALSE}
 state_names <- unique(scraped$State) %>% tolower() %>% str_replace_all(" ","-")
 s <- list()
 for(i in 1:59){
@@ -77,7 +71,7 @@ for(i in 1:59){
 ```
 
 1.(d) Changed the specific data collected from each state to dataframes and select data according to different tuition costs. Export these tables as csv files.
-```{r change state information to a table, echo=FALSE}
+```{r change state information to a table, echo=FALSE, message=FALSE}
 library(reshape2)
 s <- as.data.frame(melt(s))
 s <- s[,-6]
@@ -100,7 +94,7 @@ state_total <- s %>%
 
 2. Diversity_school wrangling
 In the part, we dealt with the diversity_school table to study the difference of enrollment between different states and categories. First, we group this table by state and category and count the total enrollment of different states and categories. Then we make a barplot and a state_choropleth to show it more specific. 
-```{r diversity_school wrangling and analysis, echo=FALSE}
+```{r diversity_school wrangling and analysis, echo=FALSE, message=FALSE}
 t1 <- diversity_school %>%
   drop_na() %>%
   group_by(state, category) %>%
@@ -139,7 +133,7 @@ From the second bar plot, we can see that Women, White, Total MInority, Hispanic
 
 3. Historical_tuition wrangling
 This table show the historical tuition costs from 1985 to 2017. At this table, we only use constant dollars which is more stable with economic status. Then, we make 3 barplot to show the variation of tuition costs between different unversity types and tuition types. 
-```{r historical_tuition analysis, echo=FALSE}
+```{r historical_tuition analysis, echo=FALSE, message=FALSE}
 grid.arrange(
   historical_tuition %>% 
     mutate(type2 = str_detect(`tuition_type`, "\\bConstant")) %>%
@@ -168,7 +162,7 @@ From the plot, although there are some missing values in time in public and priv
 
 4. salary_potential wrangling
 This table shows the estimated salary according to different level of career and we will show that the difference of potential salary and university quality(make_world_better_percent: Percent of alumni who think they are making the world a better place, stem_percent: Percent of student body in STEM) between states. First, do some summarise and cleaning on the table and create two barplots and a state_choropleth which can be used to make a comparison with th eplot in step 2.
-```{r salary_potential analysis, echo=FALSE}
+```{r salary_potential analysis, echo=FALSE, message=FALSE}
 t2 <- salary_potential %>% 
   drop_na() %>%
   group_by(state_name) %>%
@@ -211,7 +205,7 @@ First, from the two barplot, we can see that the estiamted early career pay does
 
 5.(a) tuition_cost wrangling
 This table shows the tuition cost for 2018-2019. First, we change missing values to zero. And then we analyze the tuition cost according to different classification criterion.
-```{r tuition_cost analysis, echo=FALSE}
+```{r tuition_cost analysis, echo=FALSE, message=FALSE}
 tuition_cost <- tuition_cost %>% 
   replace_na(list(state="District of Columbia", room_and_board = 0)) %>%
   mutate(total = in_state_total + out_of_state_total)
@@ -294,7 +288,7 @@ For profit type, it's the same with private type, that is, in-state tuition cost
 
 5.(b) tuition_cost + diversity_school
 In this part, we join these two tables to find out whether there are some coorelations between university diversity and tuition cost.
-```{r tuition_cost + diversity_school, echo=FALSE}
+```{r tuition_cost + diversity_school, echo=FALSE, message=FALSE}
 join1 <- left_join(tuition_cost, diversity_school, by = c("name", "state")) %>%
   drop_na() %>%
   group_by(state, category) %>%
@@ -311,7 +305,7 @@ From the plot, we can see that there is no correlation between university divers
 
 6. 2020 tuition cost data wrangling
 6.(a) In this part, we will deal with the specific data we collected from each state and comibine them together. We also turn costs to numeric type for easy calculation.
-```{r 2020 tuition cost data cleaning, echo=FALSE}
+```{r 2020 tuition cost data cleaning, echo=FALSE, message=FALSE}
 state_books <- state_books[,-c(1:3)]
 state_books$State <- str_replace_all(state_books$State, "-", " ") 
 state_books[state_books == "-"] <- 0
@@ -363,30 +357,30 @@ head(scraped2, 5)
 these two tables are come from the second data source.
 
 6.(b) Do some analysis with the data we collected from the website and find some connection with the previous analysis.
-```{r data analysis with the second data source, echo=FALSE}
+```{r data analysis with the second data source,echo=FALSE, message=FALSE}
 scraped <- scraped %>%
   .[-62,] %>%
   mutate(`Public Tuition Fees` = `In-State Public Tuition Fees` + `Out-State Public Tuition Fees`)
 
-
 grid.arrange(
-  scraped %>% 
-    melt() %>%
-    filter(variable == "public tuition fees"|variable == "Private Tuition Fees") %>%
-    ggplot() + 
-    geom_bar(aes(x = value, y = State, fill = variable), stat = "identity", position = "dodge") +
-    ggtitle("2020 Tuition Fees By University Type") + 
-    theme(legend.position="bottom"),
+    scraped %>% 
+        melt() %>%
+        filter(variable == "Public Tuition Fees"|variable == "Private Tuition Fees") %>%
+        ggplot() + 
+        geom_bar(aes(x = value, y = State, fill = variable), stat = "identity", position = "dodge") +
+        ggtitle("2020 Tuition Fees By University Type") + 
+        theme(legend.position="bottom"),
   
-  scraped %>% 
-    melt() %>%
-    filter(variable == "On-Campus Living Costs"|variable == "Off-Campus Living Costs") %>%
-    ggplot() + 
-    geom_bar(aes(x = value, y = State, fill = variable), stat = "identity", position = "dodge") +
-    ggtitle("2020 Living Costs By States") + 
-    theme(legend.position="bottom"),
-  ncol = 2
+    scraped %>% 
+        melt() %>%
+        filter(variable == "On-Campus Living Costs"|variable == "Off-Campus Living Costs") %>%
+        ggplot() + 
+        geom_bar(aes(x = value, y = State, fill = variable), stat = "identity", position = "dodge") +
+        ggtitle("2020 Living Costs By States") + 
+        theme(legend.position="bottom"),
+    ncol = 2
 )
+
 
 scraped2 %>% 
   select("State", "In-state Undergraduate Total", "Out-state Undergraduate Total", "In-state Graduate Total", "Out-state Graduate Total") %>%

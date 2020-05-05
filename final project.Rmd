@@ -30,11 +30,11 @@ Project description:
 
 In this project, we will deal with some data related to America tuition costs in each state and then find out some correlation between the tuition costs and other relative variables.
 
-
+Github repository: https://github.com/xicao143/data-wrangling
 
 1. Data import and data scraped
 
-1.(a) Read data from the first data source. As data in this source has already been cleaned, so we do not have to clean them any more.
+1.(a) Read data from the first data source. As data in this source has already been cleaned, so we do not have to clean them any more. we import these data from https://github.com/rfordatascience/tidytuesday/tree/master/data/2020/2020-03-10, also, I export them as csv files and upload them to my repository.
 
 ```{r read data from first source, echo=FALSE, message=FALSE}
 tuition_cost <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-03-10/tuition_cost.csv')
@@ -44,9 +44,14 @@ salary_potential <- readr::read_csv('https://raw.githubusercontent.com/rfordatas
 historical_tuition <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-03-10/historical_tuition.csv')
 
 diversity_school <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-03-10/diversity_school.csv')
+
+write.csv(tuition_cost, "tuition_cost")
+write.csv(salary_potential, "salary_potential")
+write.csv(historical_tuition, "historical_tuition")
+write.csv(diversity_school, "diversity_school")
 ```
 
-1.(b) Read data from the second source. Th data read from this source is the tuition fees and living costs by state. This data source need to do some cleaning and change some colnames. We deleted some rows and colnames and renamed the colname names. Export it as a csv file.
+1.(b) Read data from the second source: https://www.collegetuitioncompare.com/state/. Th data read from this source is the tuition fees and living costs by state. This data source need to do some cleaning and change some colnames. We deleted some rows and colnames and renamed the colname names. Export it as a csv file.
 
 ```{r read data from second source, echo=FALSE, message=FALSE}
 scraped <- "https://www.collegetuitioncompare.com/state/" %>%
@@ -333,7 +338,7 @@ From the plot, we can see that there is no correlation between university divers
 
 6. 2020 tuition cost data wrangling
 
-6.(a) In this part, we will deal with the specific data we collected from each state and comibine them together. We also turn costs to numeric type for easy calculation.
+6.(a) In this part, we will deal with the specific data we collected from each state and comibine them together. We also turn costs to numeric type for easy calculation. And also, we output the tidy version of our data as csv files which can be found in my github repository. 
 
 ```{r 2020 tuition cost data cleaning, echo=FALSE, message=FALSE}
 state_books <- state_books[,-c(1:3)]

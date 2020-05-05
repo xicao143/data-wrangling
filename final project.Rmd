@@ -402,8 +402,8 @@ for(i in 3:6){
 write.csv(scraped, "2020 Tuition and Living Costs Summary By States")
 write.csv(scraped2, "2020 Tuition and Living Costs Summary By States 2")
 
-head(scraped, 5)
-head(scraped2, 5)
+knitr::kable(head(scraped, 5))
+knitr::kable(head(scraped2, 5))
 ```
 
 These two tables are come from the second data source.

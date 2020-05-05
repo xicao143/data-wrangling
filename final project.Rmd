@@ -81,7 +81,7 @@ for(i in 1:59){
 
 ```
 
-1.(d) Changed the specific data collected from each state to dataframes and select data according to different tuition costs. Export these tables as csv files.
+1.(d) Changed the specific data collected from each state to dataframes and select data according to different tuition costs types.
 
 ```{r change state information to a table, echo=FALSE, message=FALSE}
 library(reshape2)

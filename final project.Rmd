@@ -185,7 +185,7 @@ From the plot, although there are some missing values in time in public and priv
 
 4. salary_potential wrangling
 
-This table shows the estimated salary according to different level of career and we will show that the difference of potential salary and university quality(make_world_better_percent: Percent of alumni who think they are making the world a better place, stem_percent: Percent of student body in STEM) between states. First, do some summarise and cleaning on the table and create two barplots and a state_choropleth which can be used to make a comparison with th eplot in step 2.
+This table shows the estimated salary according to different level of career and we will show that the difference of potential salary and university quality(make_world_better_percent: Percent of alumni who think they are making the world a better place, stem_percent: Percent of student body in STEM) between states. First, do some summarise and cleaning on the table and create two barplots and a state_choropleth which can be used to make a comparison with the plot in step 2.
 
 ```{r salary_potential analysis, echo=FALSE, message=FALSE, warning=FALSE}
 t2 <- salary_potential %>% 
@@ -195,7 +195,10 @@ t2 <- salary_potential %>%
             avg_mid_career_pay = round(mean(mid_career_pay),2),
             avg_make_world_better_perc = round(mean(make_world_better_percent),2),
             avg_stem = round(mean(stem_percent),2))
+```
 
+
+```{r salary_potential analysis1, echo=FALSE, message=FALSE, warning=FALSE}
 grid.arrange(
   t2 %>%
     melt() %>%
@@ -216,7 +219,6 @@ grid.arrange(
     theme(legend.position="bottom"),
   ncol=2
 )
-
 
 ```
 ```{r salary_potential analysis2, echo=FALSE, message=FALSE, warning=FALSE}
@@ -270,9 +272,10 @@ tuition_cost_profit <- tuition_cost %>%
             avg_total = round(mean(total),2)) %>%
   arrange(desc(avg_total))
 head(tuition_cost_profit, 5)
+```
 
 
-
+```{r tuition_cost analysis1, echo=FALSE, message=FALSE, warning=FALSE}
 grid.arrange(
   ggplot(tuition_cost_private %>% melt() %>% filter(degree_length == "4 Year")) +
     geom_bar(aes(x = value, y = state, fill = variable), stat = "identity", position = "dodge") + 
